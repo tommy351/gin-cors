@@ -42,7 +42,12 @@ func Middleware(options Options) gin.HandlerFunc {
 		requestHeaders := req.Header.Get("Access-Control-Request-Headers")
 
 		if len(options.AllowOrigins) > 0 {
-			res.Header().Set("Access-Control-Allow-Origin", strings.Join(options.AllowOrigins, " "))
+			for _, ao := range options.AllowOrigins {
+				if ao == origin {
+					res.Header().Set("Access-Control-Allow-Origin", origin)
+					break
+				}
+			}
 		} else {
 			res.Header().Set("Access-Control-Allow-Origin", origin)
 		}
